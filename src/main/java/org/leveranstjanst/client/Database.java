@@ -6,13 +6,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class Database {
-    //TO-DO set these to system environment variables and send as a properties whenever connecting to database
     static String url = System.getenv("DB_HOST");
     static String port = System.getenv("DB_PORT");
     static String database = System.getenv("DB_NAME");
     static String userName = System.getenv("DB_USER");
     static String password = System.getenv("DB_PASSWORD");
-    //Private variables
     private static Database db;
     private MysqlDataSource dataSource;
     private Database() {
