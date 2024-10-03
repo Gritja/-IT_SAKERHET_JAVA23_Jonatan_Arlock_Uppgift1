@@ -8,7 +8,7 @@ import static org.leveranstjanst.client.ServiceController.*;
 
 public class Main {
 
-    //to-do method that handles inputs instead of copying code
+    //to-do method that handles inputs as forms instead of copying code
     private static List<Object> askForInputs() {
         Scanner sr = new Scanner(System.in);
         System.out.println("Input username: ");
