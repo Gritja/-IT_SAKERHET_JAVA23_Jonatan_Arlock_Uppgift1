@@ -1,0 +1,52 @@
+package org.leveranstjanst.client;
+
+import com.mysql.cj.jdbc.MysqlDataSource;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class Database {
+    //TO-DO set these to system environment variables and send as a properties whenever connecting to database
+    static String url = "localhost";
+    static int port = 3306;
+    static String database = "userdata";
+    static String userName = "root";
+    static String password = "admin";
+    //Private variables
+    private static Database db;
+    private MysqlDataSource dataSource;
+    private Database() {
+        initializeDataSource();
+    }
+    public static Connection getConnection() {
+        if (db == null) {
+            db = new Database();
+            db.initializeDataSource();
+        }
+        return db.createConnection();
+    }
+    private void initializeDataSource() {
+        dataSource = new MysqlDataSource();
+        dataSource.setUser(userName);
+        dataSource.setPassword(password);
+        dataSource.setURL("jdbc:mysql://" + url + ":" + port + "/" + database + "?serverTimezone=UTC");
+    }
+    private Connection createConnection() {
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException ex) {
+            PrintSQLException(ex);
+            return null;
+        }
+    }
+    public static void PrintSQLException(SQLException sqle) {
+        PrintSQLException(sqle, false);
+    }
+    public static void PrintSQLException(SQLException sqle, boolean printStackTrace) {
+        while (sqle != null) {
+            System.out.println("SQL exception!\nSQLState: " + sqle.getSQLState() +  "\nErrorcode: " + sqle.getErrorCode() + "\nMessage: " + sqle.getMessage());
+            if (printStackTrace) sqle.printStackTrace();
+            sqle = sqle.getNextException();
+        }
+    }
+}
